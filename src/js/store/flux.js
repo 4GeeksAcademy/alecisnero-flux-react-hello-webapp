@@ -21,10 +21,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			/* createAgenda: , */
 
-			loadContact: async (agenda)=>{
-
+			loadContact: async () =>{
 				try{
-					const resLoadContact = await fetch(`https://playground.4geeks.com/contact/agendas/${agenda}/contacts`)
+					const resLoadContact = await fetch(`https://playground.4geeks.com/contact/agendas/Daniel1/contacts`)
 
 					if(!resLoadContact.ok){
 						throw new Error('El error fue: ', error)
@@ -38,7 +37,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('El error presentado fue: ', error)
 				}
 			},
-
+			
 			
 			
 			

@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
@@ -22,13 +21,12 @@ export const Home = () => {
         const dataCreateAgenda = await resCreateAgenda.json();
         console.log(dataCreateAgenda);
         return dataCreateAgenda;
-      }
-      else if (!resCreateAgenda.ok) {
+
+      } else if (!resCreateAgenda.ok) {
         throw new Error("El error fue: ", error);
       }
+      
 
-      actions.loadContact(agenda)
-	  
     } catch (error) {
       console.error("El error fue: ", error);
     }
@@ -45,22 +43,24 @@ export const Home = () => {
           },
         }
       );
-
-      
     } catch (error) {
       console.error("El error fue: ", error);
     }
   }
 
+  
+
   const readInput = (e) => {
-    setAgenda(e.target.value)
-  }
+    setAgenda(e.target.value);
+  };
 
   return (
     <div className="text-center mt-5">
       <h1>Contact List</h1>
 
-      <p>{agenda}</p>
+      <p>
+        {agenda} {store.color}
+      </p>
 
       <input
         type="text"
@@ -70,6 +70,8 @@ export const Home = () => {
 
       <button onClick={handlerCreateAgenda}>Create Agenda</button>
       <button onClick={handlerDeleteAgenda}>Delete Agenda</button>
+
+  
     </div>
   );
 };

@@ -6,18 +6,29 @@ import { ContactCard } from "../component/ContactCard.jsx";
 export const Contact = () => {
     const { store, actions } = useContext(Context)
 
-    return(
-        <div>
-            <h1>
-                Los Contactos Registrado son:
-            </h1>
+    return (
+        <div className='container'>
+            <div className='border border-light rounded'>
+                <h1>
+                    Los Contactos Registrado son:
+                </h1>
+            </div>
             <ContactCard />
 
-            <Link to="/">
-                <button className="btn btn-success">
-                    Back Home
-                </button>
-            </Link>
+            <div className='d-flex justify-content-around'>
+                <div>
+                    <Link to="/">
+                        <button className="btn btn-success">
+                            Back Home
+                        </button>
+                    </Link>
+                </div>
+                <div>
+                    <button className='btn btn-light' onClick={() => actions.loadContact()}>
+                        Get agendas
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }
