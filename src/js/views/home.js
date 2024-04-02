@@ -21,12 +21,9 @@ export const Home = () => {
         const dataCreateAgenda = await resCreateAgenda.json();
         console.log(dataCreateAgenda);
         return dataCreateAgenda;
-
       } else if (!resCreateAgenda.ok) {
         throw new Error("El error fue: ", error);
       }
-      
-
     } catch (error) {
       console.error("El error fue: ", error);
     }
@@ -48,30 +45,39 @@ export const Home = () => {
     }
   }
 
-  
-
   const readInput = (e) => {
     setAgenda(e.target.value);
   };
 
   return (
-    <div className="text-center mt-5">
-      <h1>Contact List</h1>
+    <div className="text-center mt-5 d-flex">
+      <h1>Registre el User de la Agenda</h1>
+
+      <div className="d-flex flex-column">
+        <div>
+          <input
+            type="text"
+            onChange={readInput}
+            placeholder="Ingrese nombre de Agenda"
+          />
+        </div>
+
+        <div>
+          <button className="btn btn-light ms-3" onClick={handlerCreateAgenda}>
+            Create Agenda
+          </button>
+          <button
+            className="btn btn-secondary ms-3"
+            onClick={handlerDeleteAgenda}
+          >
+            Delete Agenda
+          </button>
+        </div>
+      </div>
 
       <p>
         {agenda} {store.color}
       </p>
-
-      <input
-        type="text"
-        onChange={readInput}
-        placeholder="Ingrese nombre de Agenda"
-      />
-
-      <button onClick={handlerCreateAgenda}>Create Agenda</button>
-      <button onClick={handlerDeleteAgenda}>Delete Agenda</button>
-
-  
     </div>
   );
 };

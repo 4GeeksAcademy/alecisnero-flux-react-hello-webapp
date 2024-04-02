@@ -18,7 +18,7 @@ export const ContactCard = () => {
 				<ul>
 					{store.contacts.map((item) => {
 						return (
-							<div className='d-flex border border-dark rounded mb-3 p-3 justify-content-between'>
+							<div className='d-flex border border-secondary bg-light rounded mb-3 p-3 justify-content-between'>
 								<div className='d-flex align-items-center'>
 									<div className=''>
 										<img src='https://images.pexels.com/photos/11113558/pexels-photo-11113558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'

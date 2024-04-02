@@ -6,7 +6,20 @@ import { IoPersonAdd } from "react-icons/io5";
 
 export const AddContact = () => {
     const { store, actions } = useContext(Context)
-    const [form, setForm] = useState()
+    const [form, setForm] = useState( {
+        name: '',
+        phone: '',
+        email: '',
+        address: '',
+    } )
+
+    function handlerChangeForm(even) {
+        const { name, value } = even.target
+
+        setForm( (prevState)=> ({
+            ...prevState, [name]: value
+        }) )
+    }
 
     return (
         <div>
@@ -22,19 +35,19 @@ export const AddContact = () => {
                 <form action="#" method="post">
                     <div className="mb-3">
                         <label forhtml="exampleFormControlInput1" className="form-label">Nombre:</label>
-                        <input type="email" name='name' className="form-control" id="exampleFormControlInput1" placeholder="Pedro" />
+                        <input type="text" name='name' value={form.name} className="form-control" id="exampleFormControlInput1" placeholder="Pedro" />
                     </div>
                     <div className="mb-3">
                         <label forhtml="exampleFormControlInput1" className="form-label">Phone: </label>
-                        <input type="email" name='phone' className="form-control" id="exampleFormControlInput1" placeholder="+1 000 000 000" />
+                        <input type="nunber" name='phone' value={form.phone} className="form-control" id="exampleFormControlInput1" placeholder="+1 000 000 000" />
                     </div>
                     <div className="mb-3">
                         <label forhtml="exampleFormControlInput1" className="form-label">Email: </label>
-                        <input type="email" name='email' className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
+                        <input type="email" name='email' value={form.email} className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
                     </div>
                     <div className="mb-3">
                         <label forhtml="exampleFormControlInput1" className="form-label">Address: </label>
-                        <input type="email" name='address' className="form-control" id="exampleFormControlInput1" placeholder="New York, Lincoln St, 9987 Manhathan" />
+                        <input type="text" name='address' value={form.address} className="form-control" id="exampleFormControlInput1" placeholder="New York, Lincoln St, 9987 Manhathan" />
                     </div>
                 </form>
             </div>
