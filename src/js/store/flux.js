@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
+			/* demo: [
 				{
 					title: "FIRST",
 					background: "white",
@@ -12,9 +12,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			] */
+
+			contacts: [],
+			
 		},
 		actions: {
+			loadContact: async ()=>{
+				try{
+					const resLoadContact = await fetch('https://playground.4geeks.com/contact/agendas/Daniel1/contacts')
+
+					if(!resLoadContact.ok){
+						throw new Error('El error fue: ', error)
+					}
+
+					const dataLoadContact = await resLoadContact.json()
+					setStore( {contacts: dataLoadContact.contacts} )
+
+				}catch(error){
+					console.error('El error presentado fue: ', error)
+				}finally{
+					setStore('Cargando..')
+				}
+			},
+			
+
+
+
+
+
+
+
+
+
+
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
