@@ -7,23 +7,31 @@ import { Link } from 'react-router-dom'
 export const AddContact = () => {
     const { store, actions } = useContext(Context)
 
-    return(
+    return (
         <div>
             <h1>Registrar User</h1>
 
             <div className='container border border-dark'>
                 <form action="#" method="post">
-                    <input type="text" name='name' placeholder='Name' />
+                    <div className="mb-3">
+                        <label forhtml="exampleFormControlInput1" className="form-label">Nombre:</label>
+                        <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
+                    </div>
+                    <div className="mb-3">
+                        <label forhtml="exampleFormControlInput1" className="form-label">Phone: </label>
+                        <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
+                    </div>
+                    <div className="mb-3">
+                        <label forhtml="exampleFormControlInput1" className="form-label">Email: </label>
+                        <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
+                    </div>
 
-                    <input type="text" name='phone' placeholder='Phone' />
 
-                    <input type="text" name='email' placeholder='Email' />
-
-                    <input type="text" name='adress' placeholder='Adress' />
+                    
                 </form>
             </div>
 
-            
+
             <Link to="/">
                 <button className='btn btn-success'>
                     Back Home
@@ -36,6 +44,6 @@ export const AddContact = () => {
             </Link>
         </div>
 
-        
+
     )
 }

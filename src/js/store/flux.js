@@ -13,28 +13,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			] */
+			slug: '',
 
 			contacts: [],
 			
 		},
 		actions: {
-			loadContact: async ()=>{
+			/* createAgenda: , */
+
+			loadContact: async (agenda)=>{
+
 				try{
-					const resLoadContact = await fetch('https://playground.4geeks.com/contact/agendas/Daniel1/contacts')
+					const resLoadContact = await fetch(`https://playground.4geeks.com/contact/agendas/${agenda}/contacts`)
 
 					if(!resLoadContact.ok){
 						throw new Error('El error fue: ', error)
 					}
 
 					const dataLoadContact = await resLoadContact.json()
+					
 					setStore( {contacts: dataLoadContact.contacts} )
 
 				}catch(error){
 					console.error('El error presentado fue: ', error)
-				}finally{
-					setStore('Cargando..')
 				}
 			},
+
+			
+			
 			
 
 
