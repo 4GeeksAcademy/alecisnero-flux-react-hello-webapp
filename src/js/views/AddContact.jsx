@@ -1,59 +1,115 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Context } from '../store/appContext'
-import { Link } from 'react-router-dom'
-
-import { IoPersonAdd } from "react-icons/io5";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Context } from '../store/appContext';
 
 export const AddContact = () => {
-    const { store, actions } = useContext(Context)
-    const [form, setForm] = useState( {
+    const { actions } = React.useContext(Context);
+    const [formData, setFormData] = useState({
         name: '',
-        phone: '',
-        email: '',
         address: '',
-    } )
+        phone: '',
+        email: ''
+    });
+  
+    const navigate= useNavigate();
 
-    function handlerChangeForm(even) {
-        const { name, value } = even.target
+    const handleChange = e => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
-        setForm( (prevState)=> ({
-            ...prevState, [name]: value
-        }) )
-    }
+    const handleSubmit = async e => {
+        e.preventDefault();
+        try {
+            const response = await fetch('https://playground.4geeks.com/contact/agendas/Daniel1/contacts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            if (!response.ok) {
+                throw new Error('Failed to add contact');
+            };
+            await actions.loadContactsData();
+            navigate('/');
+            
+        } catch (error) {
+            console.error('Error adding contact:', error);
+        }
+    };
 
     return (
-        <div>
-            <div className='container bg-light rounded p-3 mb-3'>
-                <div className='d-flex justify-content-between'>
-                    <div>
-                        <h1>Add Contact</h1>
-                    </div>
-                    <div>
-                        <button className='btn btn-secondary rounded'><IoPersonAdd /></button>
-                    </div>
+        <div className="container card mt-4 w-50">
+            <h1 className="pt-2 px-2">Add New contact</h1>
+            <form className="px-2" onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label htmlFor="FullName" className="form-label">
+                        Full Name
+                    </label>
+                    <input
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        type="text"
+                        className="form-control"
+                        id="FullName"
+                        aria-describedby=""
+                    ></input>
                 </div>
-                <form action="#" method="post">
-                    <div className="mb-3">
-                        <label forhtml="exampleFormControlInput1" className="form-label">Nombre:</label>
-                        <input type="text" name='name' value={form.name} className="form-control" id="exampleFormControlInput1" placeholder="Pedro" />
-                    </div>
-                    <div className="mb-3">
-                        <label forhtml="exampleFormControlInput1" className="form-label">Phone: </label>
-                        <input type="nunber" name='phone' value={form.phone} className="form-control" id="exampleFormControlInput1" placeholder="+1 000 000 000" />
-                    </div>
-                    <div className="mb-3">
-                        <label forhtml="exampleFormControlInput1" className="form-label">Email: </label>
-                        <input type="email" name='email' value={form.email} className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
-                    </div>
-                    <div className="mb-3">
-                        <label forhtml="exampleFormControlInput1" className="form-label">Address: </label>
-                        <input type="text" name='address' value={form.address} className="form-control" id="exampleFormControlInput1" placeholder="New York, Lincoln St, 9987 Manhathan" />
-                    </div>
-                </form>
-            </div>
+                <div className="mb-3">
+                    <label htmlFor="Email" className="form-label">
+                        Email address
+                    </label>
+                    <input
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        type="email"
+                        className="form-control"
+                        id="Email"
+                        aria-describedby="emailHelp"
+                    ></input>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="Phone" className="form-label">
+                        Phone
+                    </label>
+                    <input
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        type="number"
+                        className="form-control"
+                        id="Phone"
+                        aria-describedby=""
+                    ></input>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="Address" className="form-label">
+                        Address
+                    </label>
+                    <input
+                        name="address"
+                        value={formData.address}
+                        onChange={handleChange}
+                        type="text"
+                        className="form-control"
+                        id="Address"
+                        aria-describedby=""
+                    ></input>
+                </div>
 
-
-            <div className='d-flex justify-content-around'>
+                <button type="submit" className="btn btn-primary">
+                    Create Contact
+                </button>
+            </form>
+            <Link to={'/'} className="mt-2 pb-2 px-2">
+                Go back to contact list
+            </Link><div className='d-flex justify-content-around'>
                 <div>
                     <Link to="/">
                         <button className='btn btn-success'>
@@ -70,6 +126,10 @@ export const AddContact = () => {
                 </div>
             </div>
         </div>
+
+
+            
+        
 
 
     )

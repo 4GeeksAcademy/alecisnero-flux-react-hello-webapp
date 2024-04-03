@@ -21,9 +21,11 @@ export const Home = () => {
         const dataCreateAgenda = await resCreateAgenda.json();
         console.log(dataCreateAgenda);
         return dataCreateAgenda;
+
       } else if (!resCreateAgenda.ok) {
         throw new Error("El error fue: ", error);
       }
+      
     } catch (error) {
       console.error("El error fue: ", error);
     }
@@ -50,7 +52,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="text-center mt-5 d-flex">
+    <div className="text-center mt-5 d-flex flex-column">
       <h1>Registre el User de la Agenda</h1>
 
       <div className="d-flex flex-column">
@@ -62,8 +64,8 @@ export const Home = () => {
           />
         </div>
 
-        <div>
-          <button className="btn btn-light ms-3" onClick={handlerCreateAgenda}>
+        <div className="mt-5">
+          <button className="btn btn-primary ms-3" onClick={handlerCreateAgenda}>
             Create Agenda
           </button>
           <button
