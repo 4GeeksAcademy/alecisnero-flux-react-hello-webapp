@@ -1,51 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../store/appContext';
 
 export const AddContact = () => {
-    const { actions } = React.useContext(Context);
+    const { store, actions } = useContext(Context)
+    const [nameUser, setNameUser] = useState('')
     const [formData, setFormData] = useState({
         name: '',
-        address: '',
+        email: '',
         phone: '',
-        email: ''
+        address: ''
     });
-  
-    const navigate= useNavigate();
+
+    const navigate = useNavigate();
 
     const handleChange = e => {
-        const { name, value } = e.target;
+        e.preventDefault()
+        const { name, value } = e.target
         setFormData(prevState => ({
             ...prevState,
             [name]: value
-        }));
+        }))
+        
     };
 
-    const handleSubmit = async e => {
-        e.preventDefault();
-        try {
-            const response = await fetch('https://playground.4geeks.com/contact/agendas/Daniel1/contacts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            if (!response.ok) {
-                throw new Error('Failed to add contact');
-            };
-            await actions.loadContactsData();
-            navigate('/');
-            
-        } catch (error) {
-            console.error('Error adding contact:', error);
-        }
-    };
+    function handlerCreateContact(){
+        actions.createContact(formData)
+        navigate('/Contact')
+    }
+    
 
     return (
         <div className="container card mt-4 w-50">
             <h1 className="pt-2 px-2">Add New contact</h1>
-            <form className="px-2" onSubmit={handleSubmit}>
+            <form className="px-2" onSubmit={handlerCreateContact}>
                 <div className="mb-3">
                     <label htmlFor="FullName" className="form-label">
                         Full Name
@@ -128,8 +116,8 @@ export const AddContact = () => {
         </div>
 
 
-            
-        
+
+
 
 
     )

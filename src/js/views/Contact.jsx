@@ -6,11 +6,13 @@ import { ContactCard } from "../component/ContactCard.jsx";
 export const Contact = () => {
     const { store, actions } = useContext(Context)
 
+    
     return (
         <div className='container'>
             <div className='border border-light rounded'>
                 <h1>
                     Los Contactos Registrado son:
+                    
                 </h1>
             </div>
             <ContactCard />
@@ -23,11 +25,11 @@ export const Contact = () => {
                         </button>
                     </Link>
                 </div>
-                <div>
+                {/* <div>
                     <button className='btn btn-light' onClick={() => actions.loadContact()}>
                         Get agendas
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     )

@@ -3,13 +3,12 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Context } from '../store/appContext'
 
 export const UpdateContact = ( ) => {
-    const { actions, store } = React.useContext(Context);
+    const { actions, store } = useContext(Context);
     const { contactId } = useParams(); // Obtener el ID del contacto de los parámetros de la URL
     const navigate = useNavigate();
     const [formData, setFormData] = useState(() => {
         const contactToUpdate = store.contacts.find(contact => contact.id == contactId);
-        console.log(contactToUpdate)
-        console.log(store.contacts)
+        
         if (contactToUpdate) {
             return {
                 name: contactToUpdate.name,
@@ -50,25 +49,11 @@ export const UpdateContact = ( ) => {
         }));
     };
 
-    const handleSubmit = async e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch(`https://playground.4geeks.com/contact/agendas/Daniel1/contacts/${contactId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            if (!response.ok) {
-                throw new Error('Failed to update contact');
-            }
-            await actions.loadContactsData();
-            navigate('/');
-        } catch (error) {
-            console.error('Error updating contact:', error);
-        }
-    };
+        actions.getUpdateContact(formData, contactId)
+        navigate('/Contact')
+    }
 
     return (
         <div className="container card mt-4 w-50">

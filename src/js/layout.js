@@ -3,13 +3,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
 import { Home } from "./views/home";
-import { Demo } from "./views/demo";
-import { Single } from "./views/single";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
+import { RegisterUser } from './views/RegisterUser.jsx'
 import { AddContact } from "./views/AddContact.jsx";
 import { Contact } from "./views/Contact.jsx";
 import { UpdateContact } from "./views/UpdateContact.jsx";
@@ -27,8 +26,7 @@ const Layout = () => {
 					<Navbar />
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/demo" element={<Demo />} />
-						<Route path="/single/:theid" element={<Single />} />
+						<Route path="/RegisterUser" element={<RegisterUser />} />
 						<Route path="/AddContact" element={<AddContact />} />
 						<Route path="/Contact" element={<Contact />}/>
 						<Route path="/UpdateContact/:contactId" element={<UpdateContact />}/>
