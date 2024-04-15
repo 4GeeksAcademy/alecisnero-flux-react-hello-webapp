@@ -2,12 +2,16 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Context } from '../store/appContext'
 
+import { GrFormPreviousLink } from "react-icons/gr";
+import { GoHome } from "react-icons/go";
+import { IoAddCircleOutline } from "react-icons/io5";
+
 export const UpdateContact = ( ) => {
     const { actions, store } = useContext(Context);
     const { contactId } = useParams(); // Obtener el ID del contacto de los parámetros de la URL
     const navigate = useNavigate();
     const [formData, setFormData] = useState(() => {
-        const contactToUpdate = store.contacts.find(contact => contact.id == contactId);
+        const contactToUpdate = store.contactRegistered.find(contact => contact.id == contactId);
         
         if (contactToUpdate) {
             return {
@@ -27,10 +31,11 @@ export const UpdateContact = ( ) => {
     });
     
     
+    
 
     useEffect(() => {
         // Obtener los detalles del contacto específico y establecer los datos en el estado local
-        const contactToUpdate = store.contacts.find(contact => contact.id === contactId);
+        const contactToUpdate = store.contactRegistered.find(contact => contact.id === contactId);
         if (contactToUpdate) {
             setFormData({
                 name: contactToUpdate.name,
@@ -39,9 +44,9 @@ export const UpdateContact = ( ) => {
                 email: contactToUpdate.email
             });
         }
-    }, [contactId, store.contacts]);
+    }, [contactId, store.contactRegistered]);
 
-    const handleChange = e => {
+    const handlerChange = e => {
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
@@ -49,80 +54,104 @@ export const UpdateContact = ( ) => {
         }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        actions.getUpdateContact(formData, contactId)
-        navigate('/Contact')
-    }
+    const handlerSubmit = (e) => {
+        if(formData !== formData.name == '' && formData.email == '' && formData.phone == '' && formData.address == ''){
+            e.preventDefault();
+             actions.getUpdateContact(formData, contactId)
+             navigate('/Contact') 
+         }else{
+             alert('No debe dejar ningun campo vacio')
+         }  
+}
+        
+    
 
     return (
-        <div className="container card mt-4 w-50">
-        <h1 className="pt-2 px-2">Update Contact</h1>
-        <form className="px-2" onSubmit={handleSubmit}>
-            <div className="mb-3">
-                <label htmlFor="FullName" className="form-label">
-                    Full Name
-                </label>
-                <input
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    type="text"
-                    className="form-control"
-                    id="FullName"
-                    aria-describedby=""
-                />
-            </div>
-            <div className="mb-3">
-                <label htmlFor="Email" className="form-label">
-                    Email address
-                </label>
-                <input
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    type="email"
-                    className="form-control"
-                    id="Email"
-                    aria-describedby="emailHelp"
-                />
-            </div>
-            <div className="mb-3">
-                <label htmlFor="Phone" className="form-label">
-                    Phone
-                </label>
-                <input
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    type="number"
-                    className="form-control"
-                    id="Phone"
-                    aria-describedby=""
-                />
-            </div>
-            <div className="mb-3">
-                <label htmlFor="Address" className="form-label">
-                    Address
-                </label>
-                <input
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    type="text"
-                    className="form-control"
-                    id="Address"
-                    aria-describedby=""
-                />
+        <div className="container mt-4 w-50">
+            <div className='editCaja d-flex justify-content-start p-2 mx-3 mt-0 title' style={{ backgroundColor: 'rgb(20,132,224)' }}>
+                <div className='d-flex align-items-center w-100'>
+                    <div className='w-auto'>
+                        <h4 className='fs-3 text-white mx-3'>Update Contact</h4>
+                    </div>
+
+                    <div className=' editCajaBtn d-flex justify-content-end fs-3'>
+                        
+                            <button className="btn3 px-2 ">
+                                <Link to='/Contact' className='text-decoration-none text-white  d-flex align-items-center justify-content-center fs-3 py-2'><GrFormPreviousLink/></Link>
+                            </button>
+                        
+                        
+                            <button className='btn2 px-2'>
+                                <Link to="/" className='text-decoration-none text-white  d-flex align-items-center justify-content-center fs-3 py-2' ><GoHome/></Link>
+                            </button>
+                        
+                        <button  onClick={handlerSubmit} className="btn1 px-2  text-white  d-flex align-items-center justify-content-center fs-3 py-2">
+                            <IoAddCircleOutline/>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <button type="submit" className="btn btn-primary">
-                Update Contact
-            </button>
-        </form>
-        <Link to={'/'} className="mt-2 pb-2 px-2">
-            Go back to contact list
-        </Link>
-    </div>
+            <div className='text-white editCaja2 p-3 mx-3' style={{ backgroundColor: 'rgb(9,51,88)', height: '80vh' }}>
+                <form className="px-2" onSubmit={handlerSubmit}>
+                    <div className="mb-5 mt-5 d-flex rounded-start align-items-center editInput" style={{ backgroundColor: 'rgb(20,132,224)'}}>
+                        <label htmlFor="FullName" className="col-2 form-label fs-5 ms-3 my-1">
+                            Full Name
+                        </label>
+                        <input
+                            name="name"
+                            value={formData.name}
+                            onChange={handlerChange}
+                            type="text"
+                            className="form-control editInput"
+                            id="FullName"
+                            aria-describedby=""
+                        />
+                    </div>
+                    <div className="mb-5 mt-5 d-flex rounded-start align-items-center editInput" style={{ backgroundColor: 'rgb(20,132,224)'}}>
+                        <label htmlFor="Email" className="col-2 form-label fs-5 ms-3 my-1">
+                            Email address
+                        </label>
+                        <input
+                            name="email"
+                            value={formData.email}
+                            onChange={handlerChange}
+                            type="email"
+                            className="form-control editInput"
+                            id="Email"
+                            aria-describedby="emailHelp"
+                        />
+                    </div>
+                    <div className="mb-5 mt-5 d-flex rounded-start align-items-center editInput" style={{ backgroundColor: 'rgb(20,132,224)'}}>
+                        <label htmlFor="Phone" className="col-2 form-label fs-5 ms-3 my-1">
+                            Phone
+                        </label>
+                        <input
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handlerChange}
+                            type="number"
+                            className="form-control editInput"
+                            id="Phone"
+                            aria-describedby=""
+                        />
+                    </div>
+                    <div className="mb-5 mt-5 d-flex rounded-start align-items-center  editInput" style={{ backgroundColor: 'rgb(20,132,224)'}}>
+                        <label htmlFor="Address" className="col-2 form-label fs-5 ms-3 my-1">
+                            Address
+                        </label>
+                        <input
+                            name="address"
+                            value={formData.address}
+                            onChange={handlerChange}
+                            type="text"
+                            className="col form-control editInput"
+                            id="Address"
+                            aria-describedby=""
+                        />
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 };

@@ -2,12 +2,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			urlGetUser: 'https://playground.4geeks.com/contact/agendas',
+			
 			saveUserCurrent: [],
+
 			contactRegistered: [],
 			
 			slug: [],
-
-			contacts: [],
 			
 			spinner: null
 		},
@@ -21,31 +21,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 			/* GET CONTACTS */
 			getContacts: async () =>{
 				const storeContact = getStore()
-				getActions.spinner(false)
+				getActions().spinner(true)
 				try{ 
-					const resLoadContact = await fetch(storeContact.urlGetUser+storeContact.slug+'/contacts')
+					const resLoadContact = await fetch(storeContact.urlGetUser+'/'+storeContact.slug+'/contacts')
 
 					if(!resLoadContact.ok){
 						throw new Error('El error fue: ', error)
 					}
-
 					const dataLoadContact = await resLoadContact.json()
-					
-					setStore( {contacts: dataLoadContact.contacts} )
-					
-					
-
+					setStore( {contactRegistered: dataLoadContact.contacts} )
 
 				}catch(error){
 					console.error('El error presentado fue: ', error)
 				}finally{
-					getActions.spinner(true)
+					getActions.spinner(false)
 				}
 			},
 
 			createContact: async (formData) => {
 				const storeContact = getStore()
-				
+				getActions().spinner(true)
 				try {  
 					const response = await fetch(storeContact.urlGetUser+'/'+storeContact.slug+'/contacts', {
 						method: 'POST',
@@ -57,18 +52,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (!response.ok) {
 						throw new Error('Failed to add contact');
 					}
+					const data = response.json()
+					setStore( {contactRegistered: data} )
+					console.log(data)
 					await getActions().getContacts()
 					
 		
 				} catch (error) {
 					console.error('Error adding contact:', error);
+				}finally{
+					getActions().spinner(false)
 				}
 			},
 
 			getUpdateContact: async (formData, contactId) => {
 				const storeContact = getStore()
+				getActions().spinner(true)
+
 				try{
-					
 					const response = await fetch(storeContact.urlGetUser+'/'+storeContact.slug+'/contacts/'+`${contactId}`, {
 							method: 'PUT',
 							headers: {
@@ -84,11 +85,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					
 				}catch(err){
 					console.error('Ha ocurrido un error:', err)
+				}finally{
+					getActions().spinner(false)
 				}
 			},
 			
 			deleteContact: async (id) => {
 				const storeContact= getStore()
+				getActions().spinner(true)
+
 				try {
 					const resDeleteAgenda = await fetch(storeContact.urlGetUser+'/'+storeContact.slug+'/contacts/'+`${id}`,
 					  {
@@ -103,38 +108,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			  
 				  } catch (error) {
 					console.error("El error fue: ", error);
+				  }finally{
+					getActions().spinner(false)
 				  }
 			},
 
-			/* createAgenda: async (slug) =>{
-				try {
-					const resCreateAgenda = await fetch(
-					  `https://playground.4geeks.com/contact/agendas/${slug}`,
-					  {
-						method: "POST",
-						body: JSON.stringify( {slug: slug} ),
-						headers: {
-						  "Content-Type": "application/json",
-						},
-					  }
-					);
-			  
-					if (resCreateAgenda.ok) {
-					  const storeCurrent = getStore()
-					  setStore( {...storeCurrent, slug: slug} )
-					  alert('Agenda Creada Exitosamente!')
-			  
-					} 
-					
-				  } catch (error) {
-					console.error("El error fue: ", error);
-					alert('Error al crear Agenda')
-				  }
-			},
-			
-			handlerDeleteAgenda: async () => {
-				
-			  }, */
+		
 
 			  /* REGISTER USER */
 			  getRegisterUser: async () => {

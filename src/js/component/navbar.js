@@ -1,17 +1,21 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 
 export const Navbar = () => {
+	const { store, actions } = useContext(Context)
 	return (
-		<nav className="navbar navbar-light bg-light mb-3">
+		<div className="text-white px-3 py-3 d-flex justify-content-between" style={{ backgroundColor: 'rgb(9,51,88)'}}>
+			<div>
 			<Link to="/">
-				<span className="navbar-brand mb-0 h1 text-decoretion-none">CONTACT LIST | INICIO</span>
+				<p className="text-white text-decoration-none fs-3 fw-bold">CONTACT LIST</p>
 			</Link>
-			<div className="ml-auto">
-				<Link to="/AddContact">
-					<button className="btn btn-primary">Add Contact</button>
-				</Link>
 			</div>
-		</nav>
+			<div>
+				<span className={`d-flex align-items-center fs-3 fw-bold mx-3 ${(store.slug == '') ? 'd-none' : ''}`}>
+					<p className="fs-5 fw-light my-3 mx-3">Welcome, User: </p>{store.slug}
+				</span>
+			</div>
+		</div>
 	);
 };

@@ -2,6 +2,10 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../store/appContext';
 
+import { GrFormPreviousLink } from "react-icons/gr";
+import { GoHome } from "react-icons/go";
+import { IoAddCircleOutline } from "react-icons/io5";
+
 export const AddContact = () => {
     const { store, actions } = useContext(Context)
     const [nameUser, setNameUser] = useState('')
@@ -21,104 +25,107 @@ export const AddContact = () => {
             ...prevState,
             [name]: value
         }))
-        
+
     };
 
-    function handlerCreateContact(){
-        actions.createContact(formData)
-        navigate('/Contact')
+    function handlerCreateContact(e) {
+        if (formData !== formData.name == '' && formData.email == '' && formData.phone == '' && formData.address == '') {
+            e.preventDefault();
+            actions.createContact(formData)
+            navigate('/Contact')
+        } else {
+            alert('No debe dejar ningun campo vacio')
+        }
+
     }
-    
+
 
     return (
-        <div className="container card mt-4 w-50">
-            <h1 className="pt-2 px-2">Add New contact</h1>
-            <form className="px-2" onSubmit={handlerCreateContact}>
-                <div className="mb-3">
-                    <label htmlFor="FullName" className="form-label">
-                        Full Name
-                    </label>
-                    <input
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        type="text"
-                        className="form-control"
-                        id="FullName"
-                        aria-describedby=""
-                    ></input>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="Email" className="form-label">
-                        Email address
-                    </label>
-                    <input
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        type="email"
-                        className="form-control"
-                        id="Email"
-                        aria-describedby="emailHelp"
-                    ></input>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="Phone" className="form-label">
-                        Phone
-                    </label>
-                    <input
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        type="number"
-                        className="form-control"
-                        id="Phone"
-                        aria-describedby=""
-                    ></input>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="Address" className="form-label">
-                        Address
-                    </label>
-                    <input
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        type="text"
-                        className="form-control"
-                        id="Address"
-                        aria-describedby=""
-                    ></input>
-                </div>
+        <div className="container mt-4 w-50">
+            <div className='editCaja d-flex justify-content-start p-2 mx-3 mt-0 title' style={{ backgroundColor: 'rgb(20,132,224)' }}>
+                <div className='d-flex align-items-center w-100'>
+                    <div className='w-auto'>
+                        <h4 className='fs-3 text-white mx-3'>Add New contact</h4>
+                    </div>
 
-                <button type="submit" className="btn btn-primary">
-                    Create Contact
-                </button>
-            </form>
-            <Link to={'/'} className="mt-2 pb-2 px-2">
-                Go back to contact list
-            </Link><div className='d-flex justify-content-around'>
-                <div>
-                    <Link to="/">
-                        <button className='btn btn-success'>
-                            Back Home
+                    <div className=' editCajaBtn d-flex justify-content-end fs-3'>
+
+                        <button className="btn3 px-2 ">
+                            <Link to='/Contact' className='text-decoration-none text-white  d-flex align-items-center justify-content-center fs-3 py-2'><GrFormPreviousLink /></Link>
                         </button>
-                    </Link>
-                </div>
-                <div>
-                    <Link to="/Contact">
-                        <button className='btn btn-light'>
-                            Ver Contacts
+
+
+                        <button className='btn2 px-2'>
+                            <Link to="/" className='text-decoration-none text-white  d-flex align-items-center justify-content-center fs-3 py-2' ><GoHome /></Link>
                         </button>
-                    </Link>
+
+                        <button onClick={handlerCreateContact} className="btn1 px-2  text-white  d-flex align-items-center justify-content-center fs-3 py-2">
+                            <IoAddCircleOutline />
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            <div className='text-white editCaja2 p-3 mx-3' style={{ backgroundColor: 'rgb(9,51,88)', height: '80vh' }}>
+                <form className="px-2" onSubmit={handlerCreateContact}>
+                    <div className="mb-5 mt-5 d-flex rounded-start align-items-center editInput" style={{ backgroundColor: 'rgb(20,132,224)' }}>
+                        <label htmlFor="FullName" className="col-2 form-label fs-5 ms-3 my-1">
+                            Full Name
+                        </label>
+                        <input
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            type="text"
+                            className="form-control editInput"
+                            id="FullName"
+                            aria-describedby=""
+                        />
+                    </div>
+                    <div className="mb-5 mt-5 d-flex rounded-start align-items-center editInput" style={{ backgroundColor: 'rgb(20,132,224)' }}>
+                        <label htmlFor="Email" className="col-2 form-label fs-5 ms-3 my-1">
+                            Email address
+                        </label>
+                        <input
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            type="email"
+                            className="form-control editInput"
+                            id="Email"
+                            aria-describedby="emailHelp"
+                        />
+                    </div>
+                    <div className="mb-5 mt-5 d-flex rounded-start align-items-center editInput" style={{ backgroundColor: 'rgb(20,132,224)' }}>
+                        <label htmlFor="Phone" className="col-2 form-label fs-5 ms-3 my-1">
+                            Phone
+                        </label>
+                        <input
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            type="number"
+                            className="form-control editInput"
+                            id="Phone"
+                            aria-describedby=""
+                        />
+                    </div>
+                    <div className="mb-5 mt-5 d-flex rounded-start align-items-center  editInput" style={{ backgroundColor: 'rgb(20,132,224)' }}>
+                        <label htmlFor="Address" className="col-2 form-label fs-5 ms-3 my-1">
+                            Address
+                        </label>
+                        <input
+                            name="address"
+                            value={formData.address}
+                            onChange={handleChange}
+                            type="text"
+                            className="col form-control editInput"
+                            id="Address"
+                            aria-describedby=""
+                        />
+                    </div>
+                </form>
+            </div>
         </div>
-
-
-
-
-
-
     )
 }
