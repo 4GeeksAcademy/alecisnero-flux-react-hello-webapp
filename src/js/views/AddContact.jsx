@@ -8,7 +8,6 @@ import { IoAddCircleOutline } from "react-icons/io5";
 
 export const AddContact = () => {
     const { store, actions } = useContext(Context)
-    const [nameUser, setNameUser] = useState('')
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -27,14 +26,14 @@ export const AddContact = () => {
         }))
 
     };
-
+    
     function handlerCreateContact(e) {
-        if (formData !== formData.name == '' && formData.email == '' && formData.phone == '' && formData.address == '') {
-            e.preventDefault();
+        e.preventDefault();
+        if (formData.name !== '' && formData.email !== '' && formData.phone !== '' && formData.address !== '') {
             actions.createContact(formData)
             navigate('/Contact')
         } else {
-            alert('No debe dejar ningun campo vacio')
+            alert('No debe dejar ningun campo vacio ')
         }
 
     }

@@ -55,7 +55,7 @@ export const UpdateContact = ( ) => {
     };
 
     const handlerSubmit = (e) => {
-        if(formData !== formData.name == '' && formData.email == '' && formData.phone == '' && formData.address == ''){
+        if(formData.name !==  '' && formData.email !==  '' && formData.phone !==  '' && formData.address !==  ''){
             e.preventDefault();
              actions.getUpdateContact(formData, contactId)
              navigate('/Contact') 
